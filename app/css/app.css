@@ -1,0 +1,108 @@
+/* app css stylesheet */
+
+.hide {
+   display: none;
+}
+
+.menu {
+  list-style: none;
+  border-bottom: 0.1em solid black;
+  margin-bottom: 2em;
+  padding: 0 0 0.5em;
+}
+
+.menu:before {
+  content: "[";
+}
+
+.menu:after {
+  content: "]";
+}
+
+.menu > li {
+  display: inline;
+}
+
+.menu > li.hide {
+   display: none;
+}
+
+.menu > li:before {
+  content: "|";
+  padding-right: 0.3em;
+}
+
+.menu > li:nth-child(1):before {
+  content: "";
+  padding: 0;
+}
+
+p.status {
+   color: red;
+}
+
+p.status.good, p.good {
+   color: green;
+}
+
+form label {
+   display: block;
+   margin: 15px 0;
+}
+
+form label span {
+   display: block;
+   font-weight: bold;
+}
+
+.error {
+   color: red;
+}
+
+fieldset {
+   float: left;
+   margin-right: 25px;
+   padding: 25px;
+}
+
+.memory-game td {
+  border: 1px solid #CCCCCC;
+}
+
+.memory-game .card {
+  cursor: pointer;
+  position: relative;
+  line-height: 0;
+}
+
+.memory-game .back, .memory-game .front  {
+  -moz-backface-visibility: hidden;
+  -ms-backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-transition: 0.5s ease-in-out;
+  transition: 0.5s ease-in-out;
+}
+
+.memory-game .back {
+  left: 0;
+  position: absolute;
+  top: 0;
+  -webkit-transform: rotateY(0deg);
+  transform: rotateY(0deg);
+}
+
+.memory-game .front {
+  -webkit-transform: rotateY(180deg);
+  transform: rotateY(180deg);
+}
+
+.memory-game .flipped .front {
+  -webkit-transform: rotateY(0deg);
+  transform: rotateY(0deg);
+}
+
+.memory-game .flipped .back {
+  -webkit-transform: rotateY(-180deg);
+  transform: rotateY(-180deg);
+}

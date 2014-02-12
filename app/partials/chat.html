@@ -1,0 +1,24 @@
+<h2>Tile Game</h2>
+
+<memory-game
+      columns="3"
+      lines="2"
+      tiles-dir="http://placekitten.com/"
+      tiles-src="tilesSrc"
+      tile-width="48"
+      tile-height="48">
+</memory-game>
+
+<form>
+  <input placeholder="Message..." ng-model="newMessage">
+  <button type="submit" ng-click="addMessage()">send</button>
+</form>
+
+<ul id="messages" ng-show="messages">
+    <li ng-repeat="message in messages | orderByPriority | reverse">{{message.text}}</li>
+</ul>
+
+<p>
+  Running the 'interpolate' filter:
+  {{ 'Current version is v%VERSION%.' | interpolate }}
+</p>

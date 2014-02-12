@@ -1,0 +1,5 @@
+{
+  "firebase": "untild",
+  "public": "app",
+  "rules": "config\\security-rules.json"
+}
