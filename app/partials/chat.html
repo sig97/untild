@@ -1,24 +1,36 @@
-<h2>Tile Game</h2>
-
-<memory-game
-      columns="3"
-      lines="2"
-      tiles-dir="http://placekitten.com/"
-      tiles-src="tilesSrc"
-      tile-width="48"
-      tile-height="48">
-</memory-game>
+<h2>Untild</h2>
 
 <form>
-  <input placeholder="Message..." ng-model="newMessage">
+  <input ng-model="flipGameRoomName" type="text" placeholder="Choose a game name"/>
+  <button type="submit" ng-click="changeRoom()">Enter game</button>  
+  <button type="submit" ng-click="resetFlipGame()">Reset game</button>
+  <button type="submit" ng-click="randomRoom()" disabled>I feel lucky</button>
+</form>
+
+<p>{{flipGameMessage}}</p>
+<table class="flip-game">
+	<tbody>
+	<tr ng-repeat="line in flipGameRoom.lines">
+    	<td ng-repeat="tile in line.tiles">
+		   	<div class="flipcard" ng-class="{flipped: tile.flipped}" ng-click="openTile(tile)" id="{{tile.id}}">
+		       	<img class="front" ng-src="http://placekitten.com/48/48" width="48" height="48">
+		       	<img class="back" ng-src="./img/back.png" width="48" height="48">
+		   	</div>
+    	</td>
+	</tr>
+	</tbody>
+</table>
+
+
+<p/>
+
+
+<form>
+  <input placeholder="Chat message..." ng-model="newMessage">
   <button type="submit" ng-click="addMessage()">send</button>
 </form>
 
-<ul id="messages" ng-show="messages">
-    <li ng-repeat="message in messages | orderByPriority | reverse">{{message.text}}</li>
-</ul>
+<div id="messages" ng-show="messages">
+    <div ng-repeat="message in messages | orderByPriority | reverse">{{message.text}}</div>
+</div>
 
-<p>
-  Running the 'interpolate' filter:
-  {{ 'Current version is v%VERSION%.' | interpolate }}
-</p>

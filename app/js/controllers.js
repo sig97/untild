@@ -7,28 +7,74 @@ angular.module('untild.controllers', [])
       syncData('syncedValue').$bind($scope, 'syncedValue');
    }])
 
-  .controller('ChatCtrl', ['$scope', 'syncData', function($scope, syncData) {
-      $scope.tilesSrc = ['48/48', '47/47', '49/49'];
-
-      $scope.$on("memoryGameUnmatchedPairEvent", function() {
-        $scope.message = "Try again!";
-      });
-      $scope.$on("memoryGameMatchedPairEvent", function() {
-        $scope.message = "Good match!";
-      });
-      $scope.$on("memoryGameCompletedEvent", function() {
-        $scope.message = "Success!";
+  .controller('ChatCtrl', ['$scope', 'syncData', function($scope, syncData) {     
+      $scope.gameMessage = "";
+      $scope.$on("flipGameCompletedEvent", function() {
+        $scope.flipGameMessage = "Game over!";
       });
 
 
-      $scope.$broadcast("memoryGameRestartEvent", $scope.tilesSrc); 
+      $scope.flipGameRoomName = "";
+      $scope.changeRoom = function() {
+         if($scope.flipGameRoomName) {
+            $scope.flipGameRoom = syncData('gameRooms/' + $scope.flipGameRoomName);
+
+            $scope.flipGameRoom.$on("loaded", function() {
+               console.log("Using game room: " + $scope.flipGameRoom.initialized);
+               launchFlipGame(3,3);               
+            });
+         }
+      };
+
+      function launchFlipGame(width, height) {
+         if(!$scope.flipGameRoom.initialized) {               
+            initFlipGame(3, 3);
+         }
+         $scope.flipGameRoom.$child("lines").$bind($scope, "flipGameRoom.lines");        
+         // constrain number of fetched messages to 20         
+         $scope.messages = syncData('gameRooms/' + $scope.flipGameRoomName + "/messages", 20);         
+      }
+
+      function initFlipGame(width, height) {
+         $scope.flipGameRoom.$remove();
+         $scope.flipGameRoom.$set({ initialized: true, width: width, height: height});
+         var lines = $scope.flipGameRoom.$child("lines");
+         for(var i = 0; i < height; i++) {
+            var newline = lines.$child("line" + i + "/tiles");
+            for(var j = 0; j < width; j++) {
+               newline.$child("tile" + j).$set({flipped: false, id: "tile"+i+"_"+j});
+            }
+         }
+      }
+
+      $scope.resetFlipGame = function() {
+         $scope.flipGameRoom.initialized = false;
+
+         initFlipGame(3,3);
+      }
+
+
+      $scope.openTile = function(tile) {
+         console.log("Opening tile." + tile.id);
+         if(tile.flipped == true) {
+            console.log("Already opened.");
+            return;
+         }
+         tile.flipped = true;
+
+         var element = document.getElementById(tile.id);
+         element.classList.add("myFlip");
+
+
+         var isLastFlipped = $(".flipped").length + 1 == $(".flipcard").length;
+         if(isLastFlipped) {
+            $scope.$emit("flipGameCompletedEvent");
+         }
+
+      };
+
 
       $scope.newMessage = null;
-
-      // constrain number of messages by limit into syncData
-      // add the array into $scope.messages
-      $scope.messages = syncData('messages', 10);
-
       // add new messages to the list
       $scope.addMessage = function() {
          if( $scope.newMessage ) {
@@ -36,6 +82,8 @@ angular.module('untild.controllers', [])
             $scope.newMessage = null;
          }
       };
+
+
    }])
 
    .controller('LoginCtrl', ['$scope', 'loginService', '$location', function($scope, loginService, $location) {

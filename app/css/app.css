@@ -65,17 +65,21 @@ fieldset {
    padding: 25px;
 }
 
-.memory-game td {
+.flip-game td {
   border: 1px solid #CCCCCC;
 }
 
-.memory-game .card {
+.flip-game .flipcard {
   cursor: pointer;
   position: relative;
   line-height: 0;
 }
 
-.memory-game .back, .memory-game .front  {
+.flip-game .myFlip {
+  outline: 2px solid green;
+}
+
+.flip-game .back, .flip-game .front  {
   -moz-backface-visibility: hidden;
   -ms-backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
@@ -84,7 +88,7 @@ fieldset {
   transition: 0.5s ease-in-out;
 }
 
-.memory-game .back {
+.flip-game .back {
   left: 0;
   position: absolute;
   top: 0;
@@ -92,17 +96,17 @@ fieldset {
   transform: rotateY(0deg);
 }
 
-.memory-game .front {
+.flip-game .front {
   -webkit-transform: rotateY(180deg);
   transform: rotateY(180deg);
 }
 
-.memory-game .flipped .front {
+.flip-game .flipped .front {
   -webkit-transform: rotateY(0deg);
   transform: rotateY(0deg);
 }
 
-.memory-game .flipped .back {
+.flip-game .flipped .back {
   -webkit-transform: rotateY(-180deg);
   transform: rotateY(-180deg);
 }
